@@ -13,6 +13,7 @@ type Project = {
 const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 const yt = (id: string) => ({ demo: `https://youtu.be/${id}`, image: `https://img.youtube.com/vi/${id}/hqdefault.jpg` });
 const email = 'dillonrinkwest@outlook.com';
+const cv = `${base}DillonRinkwest-CV.pdf`;
 
 // Order = what you want to be hired for first.
 const projects: Project[] = [
@@ -27,8 +28,8 @@ const projects: Project[] = [
   {
     name: 'Global Logistics Management System',
     kind: 'Fullstack',
-    problem: 'Manages regional clients, contract lifecycles with signed PDF agreements, and service requests. A Blazor Server frontend calls a separate REST API over JWT, deployed with Docker Compose.',
-    stack: ['Blazor', 'ASP.NET Core Web API', 'EF Core', 'JWT', 'Docker'],
+    problem: 'Logistics platform for clients, contracts and service requests. A Blazor Server frontend calls a separate REST API with JWT role-based access and SignalR notifications, runs as three Docker Compose services, and is tested and built on every push by GitHub Actions.',
+    stack: ['ASP.NET Core 10', 'Blazor Server', 'SignalR', 'Docker', 'GitHub Actions'],
     repo: 'https://github.com/ST10439147/GLMS',
   },
   {
@@ -38,6 +39,14 @@ const projects: Project[] = [
     stack: ['Python', 'Argon2id', 'AES-GCM', 'JavaScript'],
     repo: 'https://github.com/ST10439147/Vaultlet',
     image: `${base}cards/vaultlet.svg`,
+  },
+  {
+    name: 'IoT Mesh Gateway (Smart-X)',
+    kind: 'Backend · IoT',
+    problem: 'Minimal API ingesting telemetry from a simulated 13-node ESP32 mesh, with a Blazor WebAssembly console. AVL trees for time-range queries, BFS, Prim and Dijkstra for routing, and rerouting around failed nodes.',
+    stack: ['ASP.NET Core 10', 'Blazor WASM', 'Algorithms', 'Docker'],
+    repo: 'https://github.com/ST10439147/SmartX-IoT-mesh-simulator',
+    image: `${base}cards/smartx.svg`,
   },
   {
     name: 'Contract Monthly Claim System',
@@ -68,13 +77,15 @@ const skills = [
   { title: 'Backend', icon: 'ri-server-line', items: ['ASP.NET Core MVC', 'Web API', 'EF Core', 'ADO.NET', 'xUnit', 'JWT auth'] },
   { title: 'Cloud', icon: 'ri-cloud-line', items: ['Azure Functions', 'Azure SQL', 'Table / Blob / Queue Storage', 'Key Vault', 'Web Apps', 'Firebase', 'Docker'] },
   { title: 'Frontend', icon: 'ri-layout-line', items: ['Blazor', '.NET MAUI', 'WPF', 'Bootstrap 5', 'HTML / CSS'] },
-  { title: 'Languages', icon: 'ri-code-s-slash-line', items: ['C#', 'Python', 'Java', 'Kotlin', 'SQL', 'JavaScript', 'TypeScript'] },
+  { title: 'Languages', icon: 'ri-code-s-slash-line', items: ['C#', 'Java', 'Kotlin', 'Python', 'TypeScript', 'JavaScript', 'SQL', 'Bash'] },
+  { title: 'Tools & DevOps', icon: 'ri-git-branch-line', items: ['Git', 'GitHub Actions CI/CD', 'Docker / Compose', 'Linux', 'SonarQube Cloud', 'Visual Studio', 'Android Studio'] },
+  { title: 'Practices', icon: 'ri-compasses-2-line', items: ['REST API design', 'Design patterns', 'JWT & role-based access', 'Unit testing', 'Code review'] },
 ];
 
 const experience = [
-  { when: '2025 — now', title: 'Lead Platform and Backend Engineer', where: 'Student team · NPO client', text: "Building a management system that fixes the NPO's day-to-day operational problems." },
-  { when: 'Ongoing', title: 'Tutor, School of Computer Science', where: 'IIE Emeris · Newlands', text: 'Supporting students in application development and programming fundamentals.' },
-  { when: '2026', title: 'Golden Key International Honour Society', where: 'Invitation · top 15%', text: '85.75% cumulative average, with distinctions in 19 of 20 modules.' },
+  { when: '2026 — now', title: 'Lead Engineer, Work-Integrated Learning', where: 'Student team · non-profit client', text: 'Building a management platform now being delivered to the client: .NET 10 Web API, EF Core and Azure (SQL, Key Vault, Blob Storage, Communication Services), with Blazor and .NET MAUI clients.' },
+  { when: 'Apr 2026 — now', title: 'Tutor, School of Computer Science', where: 'Emeris Newlands (Varsity College)', text: 'Weekly consultations, debugging sessions and code reviews for first- and second-year students, explaining the root cause of each fix rather than handing over the answer.' },
+  { when: '2026', title: 'Golden Key · IITPSA · Cisco', where: 'Honours & certifications', text: 'Golden Key International Honour Society (top 15%, 85.75% average), IITPSA student member, and Cisco Introduction to Cybersecurity.' },
 ];
 
 const pad = (n: number) => String(n).padStart(2, '0');
@@ -101,6 +112,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
           <li><a href="#about">About</a></li>
           <li><a href="#projects">Projects</a></li>
           <li><a href="#contact">Contact</a></li>
+          <li><a href={cv} download>CV</a></li>
         </ul>
       </nav>
     </header>
@@ -118,6 +130,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
             <a href="https://www.linkedin.com/in/dillon-rinkwest-1005702a0" aria-label="LinkedIn"><i class="ri-linkedin-box-line"></i></a>
             <a href={`mailto:${email}`} aria-label="Email"><i class="ri-mail-line"></i></a>
           </div>
+          <a href={cv} download class="cv-side">Resume <i class="ri-download-line"></i></a>
         </div>
 
         <p class="role">
@@ -131,11 +144,15 @@ const pad = (n: number) => String(n).padStart(2, '0');
       <section id="about" class="about container">
         <h2 class="title">Building is <span>my craft</span></h2>
         <p class="about-text">
-          I'm a final-year <b>Computer and Information Sciences</b> student at IIE Emeris, Cape Town, graduating April 2027.
-          I build fullstack <b>C# / ASP.NET Core</b> applications and wire them to <b>Azure</b>: serverless functions,
-          storage, SQL and secrets done properly. I also tutor for the School of Computer Science.
+          I'm a software engineer in the final year of a <b>Computer and Information Sciences</b> degree at Emeris Newlands, Cape Town.
+          I build fullstack systems in <b>C# / .NET</b> on SQL Server and <b>Azure</b>: REST APIs, relational data models,
+          Docker containers and <b>GitHub Actions</b> pipelines with automated tests. I lead the engineering on a student team's
+          production system for a non-profit, and I tutor for the School of Computer Science.
         </p>
-        <a href="#projects" class="button">See my work <i class="ri-arrow-right-up-line"></i></a>
+        <div class="contact-actions">
+          <a href="#projects" class="button">See my work <i class="ri-arrow-right-up-line"></i></a>
+          <a href={cv} download class="button ghost">Download CV <i class="ri-download-line"></i></a>
+        </div>
       </section>
 
       <section id="projects" class="projects container">
@@ -203,7 +220,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
       <section id="contact" class="contact container">
         <div class="blob"></div>
         <h2 class="title">Let's <span>work together</span></h2>
-        <p class="contact-text">Open to backend, fullstack and cloud roles from 2027.</p>
+        <p class="contact-text">Available now for full-time software engineering roles: backend, fullstack and cloud.</p>
         <p class="email" id="email">{email}</p>
         <div class="contact-actions">
           <button class="button" id="copy" type="button">Copy email <i class="ri-file-copy-line"></i></button>
@@ -294,6 +311,12 @@ const pad = (n: number) => String(n).padStart(2, '0');
   .social { position: absolute; left: -3.5rem; top: 50%; transform: translateY(-50%); display: grid; gap: 0.9rem; }
   .social a { color: var(--title); font-size: 1.35rem; transition: transform 0.3s, color 0.3s; }
   .social a:hover { color: var(--first); transform: translateX(4px); }
+  .cv-side {
+    position: absolute; right: -4.5rem; top: 50%; rotate: -90deg; display: flex; align-items: center; gap: 0.5rem;
+    font: 500 0.85rem var(--title-font); color: var(--text-light); transition: color 0.3s;
+  }
+  .cv-side:hover { color: var(--first); }
+  @media (max-width: 560px) { .cv-side { display: none; } }
   @media (max-width: 560px) { .social { position: static; transform: none; display: flex; justify-content: center; margin-top: 1.25rem; gap: 1.5rem; } }
 
   .role { margin-top: 2rem; font-family: var(--title-font); font-size: clamp(1.4rem, 4vw, 2rem); color: var(--title); display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5ch; align-items: baseline; }
