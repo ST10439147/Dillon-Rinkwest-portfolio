@@ -1,0 +1,268 @@
+---
+type Project = {
+  name: string;
+  kind: string;
+  problem: string;
+  stack: string[];
+  repo?: string;
+  demo?: string;
+  image?: string;
+  lesson?: string; // "What I'd do differently". Shown only when set.
+};
+
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const yt = (id: string) => ({ demo: `https://youtu.be/${id}`, image: `https://img.youtube.com/vi/${id}/hqdefault.jpg` });
+
+// Order = what you want to be hired for first.
+const projects: Project[] = [
+  {
+    name: 'Azure Retail Platform',
+    kind: 'Cloud',
+    problem: 'Retail management with role-based access, backed by Azure SQL and Table, Blob and Queue Storage, with CRUD exposed through Azure Functions.',
+    stack: ['ASP.NET Core 8', 'Azure Functions', 'Azure Storage', 'Azure SQL'],
+    repo: 'https://github.com/ST10439147/Cloud-Azure-Functions-App',
+    ...yt('P-oUV2yOKHA'),
+  },
+  {
+    name: 'Global Logistics Management System',
+    kind: 'Fullstack · Docker',
+    problem: 'Manages regional clients, contract lifecycles with signed PDF agreements, and service requests. A Blazor Server frontend calls a separate REST API over JWT, deployed with Docker Compose.',
+    stack: ['Blazor', 'ASP.NET Core Web API', 'EF Core', 'JWT', 'Docker'],
+    repo: 'https://github.com/ST10439147/GLMS',
+  },
+  {
+    name: 'Vaultlet',
+    kind: 'Security',
+    problem: 'Local-first, zero-knowledge password manager: Argon2id key derivation, AES-256-GCM vaults, end-to-end encrypted sync with three-way merge, TOTP, breach checks and a browser extension.',
+    stack: ['Python', 'Argon2id', 'AES-GCM', 'JavaScript'],
+    repo: 'https://github.com/ST10439147/Vaultlet',
+    image: `${base}cards/vaultlet.svg`,
+  },
+  {
+    name: 'Contract Monthly Claim System',
+    kind: 'Backend',
+    problem: 'Two-stage claim approval across four user roles, with AES-256 encrypted document storage and a full audit trail.',
+    stack: ['ASP.NET Core', 'EF Core', 'SQL Server', 'xUnit'],
+    repo: 'https://github.com/ST10439147/CMCS_Platform',
+    ...yt('mzmmVi46Yd4'),
+  },
+  {
+    name: 'NPO Management Platform',
+    kind: 'Team · WIL · Private',
+    problem: 'Fixing day-to-day operational problems for a non-profit, built with a student team. I lead the platform and backend work.',
+    stack: ['.NET 10 Web API', 'Blazor', '.NET MAUI', 'Azure SQL', 'Key Vault'],
+    image: `${base}cards/npo.svg`,
+  },
+  {
+    name: 'HustleHub',
+    kind: 'Web',
+    problem: 'Connects freelancers with clients.',
+    stack: ['JavaScript'],
+    repo: 'https://github.com/ST10439147/HustleHub',
+    image: `${base}cards/hustlehub.svg`,
+  },
+];
+
+const marquee = ['C#', '.NET', 'Azure Functions', 'Blazor', 'EF Core', 'Docker', 'SQL Server', 'Key Vault', 'Python', 'TypeScript'];
+const pad = (n: number) => String(n).padStart(2, '0');
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dillon Rinkwest | Backend and Cloud Engineer</title>
+    <meta name="description" content="Final-year student building C#, .NET and Azure applications. Projects, experience and contact." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <nav class="top">
+      <a href="#" class="brand">Dillon <span>/</span></a>
+      <div>
+        <a href="#work" class="mono">Work</a>
+        <a href="mailto:dillonrinkwest@outlook.com" class="mono">Email ↗</a>
+        <a href="https://github.com/ST10439147" class="mono boxed">GitHub ↗</a>
+      </div>
+    </nav>
+
+    <main>
+      <header class="hero wrap">
+        <p class="mono label">00 — Backend &amp; Cloud · Cape Town, South Africa</p>
+        <h1>Hey, I'm <em>Dillon.</em></h1>
+        <p class="intro">
+          I build backend and fullstack applications in C# and .NET, and wire them to Azure when the job calls for it:
+          serverless functions, storage, SQL and secrets done properly.
+        </p>
+        <dl class="facts">
+          <div><dt>Now</dt><dd>Final-year BSc CIS (Application Development) · IIE Emeris</dd></div>
+          <div><dt>Builds</dt><dd>ASP.NET Core APIs, Blazor apps, Azure Functions</dd></div>
+          <div><dt>Stack</dt><dd>C# · .NET · Azure · SQL · Docker</dd></div>
+          <div><dt>Record</dt><dd>85.75% average · Golden Key member · Tutor</dd></div>
+          <div><dt>Open to</dt><dd>Backend, fullstack and cloud roles · from 2027</dd></div>
+        </dl>
+        <div class="actions">
+          <a href="#work" class="btn solid">See my work ↘</a>
+          <a href="mailto:dillonrinkwest@outlook.com" class="btn">Email me ↗</a>
+          <a href="https://www.linkedin.com/in/dillon-rinkwest-1005702a0" class="btn">LinkedIn ↗</a>
+        </div>
+      </header>
+
+      <div class="marquee" aria-hidden="true">
+        <div class="track">
+          {[...marquee, ...marquee].map((m, i) => <span class={i % 2 ? 'dim' : ''}>{m}<i>✦</i></span>)}
+        </div>
+      </div>
+
+      <section id="work" class="wrap">
+        <span class="ghost">01</span>
+        <p class="mono label rule">Selected work</p>
+        <h2>Software that holds up <em>in production.</em></h2>
+        <ol class="projects">
+          {projects.map((p, i) => (
+            <li>
+              <span class="mono num">{pad(i + 1)}</span>
+              <div class="body">
+                <p class="mono label">{p.kind}</p>
+                <h3>{p.repo ? <a href={p.repo}>{p.name}</a> : p.name}</h3>
+                <p>{p.problem}</p>
+                {p.lesson && <p class="lesson"><span class="mono">What I'd do differently</span> {p.lesson}</p>}
+                <p class="mono tags">{p.stack.join(' · ')}</p>
+                <p class="links">
+                  {p.demo && <a href={p.demo} class="mono">Demo ↗</a>}
+                  {p.repo && <a href={p.repo} class="mono">Code ↗</a>}
+                </p>
+              </div>
+              {p.image && (
+                <a href={p.demo ?? p.repo} class="thumb" tabindex="-1">
+                  <img src={p.image} alt="" loading="lazy" />
+                </a>
+              )}
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section class="wrap">
+        <span class="ghost">02</span>
+        <p class="mono label rule">Experience</p>
+        <h2>Teaching it, <em>and shipping it.</em></h2>
+        <ol class="rows">
+          <li>
+            <p class="mono label">IIE Emeris · Newlands</p>
+            <h3>Tutor, School of Computer Science</h3>
+            <p>Supporting students in application development and programming fundamentals.</p>
+          </li>
+          <li>
+            <p class="mono label">Student team · NPO client</p>
+            <h3>Lead Platform and Backend Engineer</h3>
+            <p>Building a management system that fixes the NPO's day-to-day operational problems.</p>
+          </li>
+        </ol>
+      </section>
+
+      <section class="wrap">
+        <span class="ghost">03</span>
+        <p class="mono label rule">Toolbox</p>
+        <h2>What I <em>reach for.</em></h2>
+        <dl class="facts">
+          <div><dt>Backend</dt><dd>ASP.NET Core MVC / Web API · EF Core · ADO.NET · xUnit</dd></div>
+          <div><dt>Frontend</dt><dd>Blazor · .NET MAUI · WPF · Bootstrap 5</dd></div>
+          <div><dt>Cloud</dt><dd>Azure Functions · Azure SQL · Table / Blob / Queue Storage · Key Vault · Web Apps · Firebase · Docker</dd></div>
+          <div><dt>Languages</dt><dd>C# · Python · Kotlin · Java · SQL · JavaScript · TypeScript</dd></div>
+        </dl>
+      </section>
+
+      <section class="wrap contact">
+        <p class="mono label rule">04 — Contact</p>
+        <h2>Backend · Cloud · <em>Fullstack.</em></h2>
+        <div class="actions">
+          <a href="mailto:dillonrinkwest@outlook.com" class="btn solid">dillonrinkwest@outlook.com ↗</a>
+          <a href="https://github.com/ST10439147" class="btn">GitHub ↗</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="wrap mono">Colophon · Astro, hand-written CSS, no JavaScript shipped · deployed by GitHub Actions to GitHub Pages</footer>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --bg: #0a0a0b; --text: #f1eee8; --soft: #d9d5cc; --muted: #8d8a84; --cream: #e8e2d3; --ink: #141310; --line: #26252a;
+    --serif: 'Instrument Serif', Georgia, serif; --sans: 'Space Grotesk', system-ui, sans-serif; --mono: 'JetBrains Mono', ui-monospace, monospace;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 17px/1.6 var(--sans); }
+  a { color: inherit; }
+  em { font-style: italic; color: var(--cream); }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 16px; position: relative; }
+  .mono { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; }
+  .label { color: var(--muted); margin: 0 0 12px; }
+  .label.rule { display: flex; align-items: center; gap: 16px; }
+  .label.rule::before { content: ''; width: 64px; height: 1px; background: var(--muted); }
+
+  .top { position: sticky; top: 0; z-index: 10; display: flex; justify-content: space-between; align-items: center; padding: 14px 24px; background: rgb(10 10 11 / 0.85); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+  .top .brand { font: 1.5rem var(--serif); text-decoration: none; }
+  .top .brand span { color: var(--muted); }
+  .top div { display: flex; gap: 20px; align-items: center; }
+  .top div a { text-decoration: none; }
+  .top .boxed { border: 1px solid var(--line); padding: 8px 12px; }
+  @media (max-width: 560px) { .top div a:not(.boxed) { display: none; } }
+
+  .hero { padding-top: 72px; padding-bottom: 56px; }
+  h1 { font: 400 clamp(3.2rem, 10vw, 5.5rem)/1 var(--serif); margin: 0 0 28px; letter-spacing: -0.01em; }
+  .intro { color: var(--soft); max-width: 560px; font-size: 1.1rem; }
+  .facts { margin: 28px 0; max-width: 720px; }
+  .facts div { display: grid; grid-template-columns: 110px 1fr; gap: 16px; padding: 12px 0; border-top: 1px solid var(--line); }
+  .facts div:last-child { border-bottom: 1px solid var(--line); }
+  .facts dt { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); padding-top: 4px; }
+  .facts dd { margin: 0; font-size: 0.95rem; }
+  .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+  .btn { padding: 14px 28px; border: 1px solid var(--soft); text-decoration: none; transition: background 0.2s, color 0.2s; }
+  .btn:hover, .btn.solid { background: var(--cream); color: var(--ink); border-color: var(--cream); }
+  .btn.solid:hover { background: transparent; color: var(--text); }
+
+  .marquee { border-block: 1px solid var(--line); overflow: hidden; padding: 18px 0; }
+  .track { display: flex; width: max-content; animation: scroll 40s linear infinite; }
+  .track span { font: 2.2rem var(--serif); padding-right: 32px; white-space: nowrap; }
+  .track span.dim { color: var(--muted); }
+  .track i { font: 1rem var(--sans); color: var(--muted); padding-left: 32px; vertical-align: middle; }
+  @keyframes scroll { to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) { .track { animation: none; } }
+
+  section { padding-top: 96px; padding-bottom: 24px; }
+  h2 { font: 400 clamp(2.2rem, 6vw, 3.6rem)/1.05 var(--serif); margin: 0 0 40px; max-width: 700px; }
+  h3 { font: 400 1.9rem/1.1 var(--serif); margin: 0 0 10px; }
+  h3 a { text-decoration: none; }
+  h3 a:hover { color: var(--cream); text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+  .ghost { position: absolute; right: 16px; top: 40px; font: italic 12rem/1 var(--serif); color: transparent; -webkit-text-stroke: 1px var(--line); pointer-events: none; user-select: none; }
+
+  .projects, .rows { list-style: none; padding: 0; margin: 0; }
+  .projects li { display: grid; grid-template-columns: 48px 1fr 280px; gap: 24px; padding: 32px 0; border-top: 1px solid var(--line); }
+  .projects li:last-child, .rows li:last-child { border-bottom: 1px solid var(--line); }
+  .projects .num { color: var(--muted); padding-top: 4px; }
+  .projects .body > p:not(.mono) { color: var(--soft); margin: 0 0 12px; }
+  .projects .tags { color: var(--muted); margin: 0 0 12px; letter-spacing: 0.06em; }
+  .projects .lesson .mono { display: block; color: var(--muted); }
+  .links { display: flex; gap: 20px; margin: 0; }
+  .links a { text-decoration: none; border-bottom: 1px solid var(--muted); padding-bottom: 2px; }
+  .links a:hover { border-color: var(--cream); color: var(--cream); }
+  .thumb img { width: 100%; aspect-ratio: 16 / 9; object-fit: contain; background: #1a1b27; border: 1px solid var(--line); display: block; filter: grayscale(0.6); transition: filter 0.3s; }
+  .projects li:hover .thumb img { filter: none; }
+  @media (max-width: 760px) {
+    .projects li { grid-template-columns: 1fr; gap: 12px; }
+    .thumb { order: -1; }
+    .ghost { font-size: 7rem; }
+  }
+
+  .rows li { padding: 28px 0; border-top: 1px solid var(--line); }
+  .rows li p:not(.mono) { color: var(--soft); margin: 0; }
+
+  .contact { padding-bottom: 80px; }
+  footer { color: var(--muted); border-top: 1px solid var(--line); padding-top: 24px; padding-bottom: 32px; line-height: 1.9; }
+</style>
