@@ -18,6 +18,8 @@ const cv = `${base}DillonRinkwest-CV.pdf`;
 const abs = (path: string) => (Astro.site ? new URL(path, Astro.site).href : path);
 const pageUrl = abs(base);
 const ogImage = abs(`${base}og.png`);
+// GoatCounter site code (the "xyz" in xyz.goatcounter.com). Empty = analytics off.
+const goatcounter = 'dillonrinkwest';
 const title = 'Dillon Rinkwest | Backend and Cloud Engineer';
 const description = 'Software engineer building C#, .NET and Azure systems: REST APIs, Blazor apps, Docker and CI/CD. Projects, experience and CV.';
 
@@ -131,6 +133,9 @@ const pad = (n: number) => String(n).padStart(2, '0');
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Unbounded:wght@400;500;600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" />
+    {goatcounter && (
+      <script is:inline async data-goatcounter={`https://${goatcounter}.goatcounter.com/count`} src="https://gc.zgo.at/count.js"></script>
+    )}
   </head>
   <body>
     <header class="header">
@@ -141,7 +146,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
           <li><a href="#about">About</a></li>
           <li><a href="#projects">Projects</a></li>
           <li><a href="#contact">Contact</a></li>
-          <li><a href={cv} download>CV</a></li>
+          <li><a href={cv} download data-goatcounter-click="cv-download">CV</a></li>
         </ul>
       </nav>
     </header>
@@ -157,9 +162,9 @@ const pad = (n: number) => String(n).padStart(2, '0');
           <div class="social">
             <a href="https://github.com/ST10439147" aria-label="GitHub"><i class="ri-github-line"></i></a>
             <a href="https://www.linkedin.com/in/dillon-rinkwest-1005702a0" aria-label="LinkedIn"><i class="ri-linkedin-box-line"></i></a>
-            <a href={`mailto:${email}`} aria-label="Email"><i class="ri-mail-line"></i></a>
+            <a href={`mailto:${email}`} data-goatcounter-click="email-click" aria-label="Email"><i class="ri-mail-line"></i></a>
           </div>
-          <a href={cv} download class="cv-side">Resume <i class="ri-download-line"></i></a>
+          <a href={cv} download data-goatcounter-click="cv-download" class="cv-side">Resume <i class="ri-download-line"></i></a>
         </div>
 
         <p class="role">
@@ -180,7 +185,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
         </p>
         <div class="contact-actions">
           <a href="#projects" class="button">See my work <i class="ri-arrow-right-up-line"></i></a>
-          <a href={cv} download class="button ghost">Download CV <i class="ri-download-line"></i></a>
+          <a href={cv} download data-goatcounter-click="cv-download" class="button ghost">Download CV <i class="ri-download-line"></i></a>
         </div>
       </section>
 
@@ -253,7 +258,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
         <p class="email" id="email">{email}</p>
         <div class="contact-actions">
           <button class="button" id="copy" type="button">Copy email <i class="ri-file-copy-line"></i></button>
-          <a class="button ghost" href={`mailto:${email}`}>Send email <i class="ri-send-plane-line"></i></a>
+          <a class="button ghost" href={`mailto:${email}`} data-goatcounter-click="email-click">Send email <i class="ri-send-plane-line"></i></a>
         </div>
         <div class="contact-links">
           <a href="https://github.com/ST10439147"><i class="ri-github-line"></i> GitHub</a>
