@@ -233,7 +233,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
                 <span>{s.title}</span>
                 <i class="ri-arrow-down-s-line chevron"></i>
               </summary>
-              <ul>{s.items.map((it) => <li><i class="ri-star-line"></i>{it}</li>)}</ul>
+              <ul>{s.items.map((it, j) => <li style={`--i:${j}`}><i class="ri-star-line"></i>{it}</li>)}</ul>
             </details>
           ))}
         </div>
@@ -271,7 +271,24 @@ const pad = (n: number) => String(n).padStart(2, '0');
 
     <footer class="footer container">© {new Date().getFullYear()} Dillon Rinkwest · Built with Astro, deployed by GitHub Actions</footer>
 
+    <div class="progress" aria-hidden="true"></div>
+
     <script is:inline>
+      // Scroll reveal: hidden only once JS runs, so content never disappears without it.
+      if (!matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObserver' in window) {
+        const els = document.querySelectorAll('.title, .about-text, main .contact-actions, .card, .skill, .timeline li, .contact-text, .email, .contact-links');
+        const io = new IntersectionObserver((entries) => {
+          for (const e of entries) if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+        }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+        els.forEach((el) => {
+          // Stagger siblings (cards in a row, skill cards, timeline items).
+          const i = [...el.parentElement.children].indexOf(el) % 3;
+          el.style.setProperty('--d', `${i * 120}ms`);
+          el.classList.add('reveal');
+          io.observe(el);
+        });
+      }
+
       document.getElementById('copy').addEventListener('click', (e) => {
         const btn = e.currentTarget;
         navigator.clipboard.writeText(document.getElementById('email').textContent).then(() => {
@@ -397,7 +414,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
   .stack-label { font: 0.75rem var(--title-font); color: var(--title); }
   .stack { font-size: 0.85rem; color: var(--first-light); margin-bottom: 0.75rem; }
   .desc { font-size: 0.88rem; margin-bottom: 1rem; }
-  .shot { position: relative; margin-top: auto; }
+  .shot { position: relative; margin-top: auto; overflow: hidden; border-radius: 1.25rem; }
   .shot img { border-radius: 1.25rem; aspect-ratio: 16 / 9; object-fit: contain; background: #1a1b27; width: 100%; }
   .shot-link {
     position: absolute; top: 0.75rem; right: 0.75rem; width: 44px; height: 44px; display: grid; place-items: center;
@@ -437,6 +454,52 @@ const pad = (n: number) => String(n).padStart(2, '0');
   .contact-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; margin-bottom: 2rem; }
   .contact-links { display: flex; justify-content: center; gap: 2rem; color: var(--title); }
   .contact-links a:hover { color: var(--first); }
+
+  /* ===== Animations ===== */
+  @keyframes rise { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: none; } }
+  @keyframes float { 50% { transform: translateY(-10px); } }
+  @keyframes pulse { 0% { box-shadow: 0 0 0 0 hsla(var(--hue), 65%, 55%, 0.6); } 100% { box-shadow: 0 0 0 14px hsla(var(--hue), 65%, 55%, 0); } }
+  @keyframes slide { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: none; } }
+
+  /* Hero entrance, staggered */
+  .greeting, .name, .portrait, .role { animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+  .name { animation-delay: 0.12s; }
+  .portrait { animation-delay: 0.28s; }
+  .role { animation-delay: 0.45s; }
+  .portrait img { animation: float 6s ease-in-out 1.2s infinite; }
+
+  /* Scroll reveal (classes added by the script) */
+  .reveal { opacity: 0; transform: translateY(36px); transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1); transition-delay: var(--d, 0ms); }
+  .reveal.in { opacity: 1; transform: none; }
+
+  /* Hover: separate `translate`/`scale` properties so they don't fight the reveal transform */
+  .card { transition: translate 0.35s ease, box-shadow 0.35s ease, outline-color 0.35s; outline: 1px solid transparent; }
+  .card:hover { translate: 0 -8px; box-shadow: 0 18px 40px -12px hsla(var(--hue), 65%, 55%, 0.35); outline-color: hsla(var(--hue), 65%, 55%, 0.35); }
+  .shot img { transition: scale 0.5s ease; }
+  .card:hover .shot img { scale: 1.05; }
+  .skill { transition: translate 0.3s ease, border-color 0.3s; }
+  .skill:hover { translate: 0 -4px; }
+  .skill[open] li { animation: slide 0.4s ease both; animation-delay: calc(var(--i) * 45ms); }
+  .button { transition: box-shadow 0.3s, translate 0.3s; }
+  .button:hover { translate: 0 -3px; }
+  .nav ul a { position: relative; }
+  .nav ul a::after { content: ''; position: absolute; left: 0; bottom: -4px; width: 100%; height: 2px; background: var(--first); scale: 0 1; transform-origin: left; transition: scale 0.3s ease; }
+  .nav ul a:hover::after { scale: 1 1; }
+  .timeline li::before { animation: pulse 2.4s ease-out infinite; }
+  .contact-links a i, .card-links a i { display: inline-block; transition: translate 0.3s; }
+  .contact-links a:hover i, .card-links a:hover i { translate: 0 -2px; }
+
+  /* Scroll progress bar (Chrome/Edge; others simply don't show it) */
+  .progress { display: none; }
+  @supports (animation-timeline: scroll()) {
+    .progress { display: block; position: fixed; inset: 0 0 auto; height: 3px; z-index: 200; background: linear-gradient(90deg, var(--first-alt), var(--first-light)); transform-origin: left; animation: grow linear both; animation-timeline: scroll(root); }
+    @keyframes grow { from { scale: 0 1; } to { scale: 1 1; } }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .progress { display: none; }
+  }
 
   .footer { text-align: center; font-size: 0.8rem; color: var(--text-light); padding-block: 2rem; border-top: 1px solid var(--container); }
 </style>
